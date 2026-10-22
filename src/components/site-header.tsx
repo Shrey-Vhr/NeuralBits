@@ -35,6 +35,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link href="/login" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-[var(--muted-foreground)] hover:bg-[var(--surface)] hover:text-[var(--primary-strong)] sm:block">Sign in</Link>
           <Link href="/scan" className="hidden sm:block">
             <Button size="sm">Identify an item</Button>
           </Link>

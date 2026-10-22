@@ -1,0 +1,14 @@
+"use client";
+
+import Link from "next/link";
+import { Search, ArrowRight } from "lucide-react";
+import { useMemo, useState } from "react";
+import type { Material } from "@/lib/content";
+
+export function MaterialsDirectory({ materials }: { materials: Material[] }) {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const categories = ["All", ...Array.from(new Set(materials.map((material) => material.category)))];
+  const filtered = useMemo(() => materials.filter((material) => `${material.name} ${material.category} ${material.description}`.toLowerCase().includes(query.toLowerCase()) && (category === "All" || material.category === category)), [category, materials, query]);
+  return <div className="mt-8"><div className="grid gap-3 sm:grid-cols-[1fr_auto]"><label className="relative block"><span className="sr-only">Search materials</span><Search className="absolute left-3 top-3.5 text-[var(--muted-foreground)]" size={18} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search materials" className="min-h-11 w-full rounded-xl border border-[var(--border)] bg-white pl-10 pr-4 text-sm outline-none ring-[var(--ring)] focus:ring-2" /></label><label className="sr-only" htmlFor="material-category">Filter by category</label><select id="material-category" value={category} onChange={(event) => setCategory(event.target.value)} className="min-h-11 rounded-xl border border-[var(--border)] bg-white px-4 text-sm text-[var(--foreground)] outline-none focus:ring-2 focus:ring-[var(--ring)]">{categories.map((option) => <option key={option}>{option}</option>)}</select></div><p className="mt-4 text-sm text-[var(--muted-foreground)]">{filtered.length} material categor{filtered.length === 1 ? "y" : "ies"}</p>{filtered.length ? <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{filtered.map((material) => <Link key={material.slug} href={`/materials/${material.slug}`} className="group rounded-2xl border border-[var(--border)] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[var(--secondary)] hover:shadow-sm"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--secondary-strong)]">{material.category}</p><h2 className="mt-2 text-lg font-bold text-[var(--primary-strong)]">{material.name}</h2><p className="mt-2 line-clamp-3 text-sm leading-6 text-[var(--muted-foreground)]">{material.description}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--primary)]">View guidance <ArrowRight className="transition group-hover:translate-x-1" size={16} /></span></Link>)}</div> : <div className="mt-4 rounded-2xl border border-dashed border-[var(--border)] bg-white p-8 text-center"><h2 className="font-bold text-[var(--primary-strong)]">No exact material match</h2><p className="mt-2 text-sm text-[var(--muted-foreground)]">Try a broader term such as plastic, metal, or paper.</p></div>}</div>;
+}

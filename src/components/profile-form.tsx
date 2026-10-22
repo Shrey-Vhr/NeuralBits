@@ -1,0 +1,12 @@
+"use client";
+
+import { FormEvent, useState } from "react";
+import { CheckCircle2, LoaderCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+
+export function ProfileForm({ userId, initialName, initialLanguage }: { userId: string; initialName: string; initialLanguage: string }) {
+  const [name, setName] = useState(initialName); const [language, setLanguage] = useState(initialLanguage); const [status, setStatus] = useState<string | null>(null); const [error, setError] = useState<string | null>(null); const [loading, setLoading] = useState(false);
+  async function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setLoading(true); setError(null); setStatus(null); const supabase = createSupabaseBrowserClient(); if (!supabase) { setError("Supabase is not configured."); setLoading(false); return; } const { error: updateError } = await supabase.from("profiles").update({ display_name: name.trim() || null, preferred_language: language, updated_at: new Date().toISOString() }).eq("id", userId); setLoading(false); if (updateError) setError(updateError.message); else setStatus("Profile saved."); }
+  return <form onSubmit={submit} className="mt-6 space-y-4"><label className="block text-sm font-semibold">Display name<input value={name} onChange={(event) => setName(event.target.value)} className="mt-2 min-h-11 w-full rounded-xl border border-[var(--border)] px-3 text-sm outline-none focus:ring-2 focus:ring-[var(--ring)]" maxLength={120} /></label><label className="block text-sm font-semibold">Preferred language<select value={language} onChange={(event) => setLanguage(event.target.value)} className="mt-2 min-h-11 w-full rounded-xl border border-[var(--border)] bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-[var(--ring)]"><option value="en">English</option><option value="hi">Hindi</option><option value="pa">Punjabi</option></select></label>{error && <p role="alert" className="rounded-xl bg-[#fff0ef] p-3 text-sm text-[#9b3028]">{error}</p>}{status && <p role="status" className="flex items-center gap-2 rounded-xl bg-[var(--secondary-soft)] p-3 text-sm text-[var(--primary-strong)]"><CheckCircle2 size={16} />{status}</p>}<Button type="submit" disabled={loading}>{loading && <LoaderCircle className="animate-spin" size={16} />}Save profile</Button></form>;
+}

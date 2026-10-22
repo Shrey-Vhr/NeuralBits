@@ -1,2 +1,12 @@
-import { PlaceholderPage } from "@/components/placeholder-page";
-export default function ItemsPage() { return <PlaceholderPage eyebrow="Search items" title="Find an item by name" description="Search for common household and office items, then open a reviewed preparation guide. The initial content library will be added in Milestone 2." nextStep="Curated item search is planned next" />; }
+import { SectionHeading } from "@/components/section-heading";
+import { ItemsDirectory } from "@/components/items-directory";
+import { PageShell } from "@/components/page-shell";
+import { getEducationContent } from "@/lib/content-repository";
+
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+export const instant = false;
+
+export default async function ItemsPage() {
+  const { items, materials } = await getEducationContent();
+  return <PageShell><SectionHeading eyebrow="Item search" title="Find an everyday item" description="Search common household items by name or alternative name, then see their likely material categories and preparation guidance." /><ItemsDirectory items={items} materials={materials} /></PageShell>;
+}
