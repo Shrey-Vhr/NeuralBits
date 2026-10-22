@@ -1,0 +1,2 @@
+import { PlaceholderPage } from "@/components/placeholder-page";
+export default function ScanPage() { return <PlaceholderPage eyebrow="Identify an item" title="What are you setting aside?" description="Choose an item or prepare for a future photo-assisted identification flow. Gemini will be added only after the manual selection workflow is ready." nextStep="Manual selection comes in the next milestone" />; }

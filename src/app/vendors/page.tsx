@@ -1,0 +1,2 @@
+import { PlaceholderPage } from "@/components/placeholder-page";
+export default function VendorsPage() { return <PlaceholderPage eyebrow="Find vendors" title="Local recycling partners" description="The pilot will use locality-based discovery for invited and administrator-approved vendors. No sample vendors or locations are presented as real data." nextStep="Vendor discovery follows the content foundation" />; }

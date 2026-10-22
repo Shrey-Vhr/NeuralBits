@@ -1,0 +1,2 @@
+import { PlaceholderPage } from "@/components/placeholder-page";
+export default function PickupsPage() { return <PlaceholderPage eyebrow="My pickups" title="Your pickup activity" description="Pickup booking and private history require authentication and belong to a later milestone. This screen intentionally contains no account workflow yet." nextStep="Pickup workflows are planned after authentication" />; }

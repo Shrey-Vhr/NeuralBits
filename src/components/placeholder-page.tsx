@@ -1,0 +1,7 @@
+import { ArrowRight, CircleHelp, Construction } from "lucide-react";
+import { PageShell } from "@/components/page-shell";
+import { SectionHeading } from "@/components/section-heading";
+
+export function PlaceholderPage({ eyebrow, title, description, nextStep }: { eyebrow: string; title: string; description: string; nextStep: string }) {
+  return <PageShell><SectionHeading eyebrow={eyebrow} title={title} description={description} /><div className="mt-10 grid gap-5 sm:grid-cols-[1fr_0.8fr]"><div className="rounded-2xl border border-dashed border-[var(--border)] bg-white p-6 sm:p-8"><Construction className="text-[var(--secondary-strong)]" size={28} /><h2 className="mt-5 text-xl font-bold text-[var(--primary-strong)]">Foundation screen</h2><p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">This is an intentionally clear placeholder for Milestone 1. No real vendor data, prices, guides, or account records are being presented here.</p><div className="mt-6 flex items-center gap-2 text-sm font-semibold text-[var(--primary)]">{nextStep} <ArrowRight size={16} /></div></div><div className="rounded-2xl bg-[var(--surface)] p-6"><CircleHelp className="text-[var(--secondary-strong)]" size={25} /><h2 className="mt-4 font-bold text-[var(--primary-strong)]">What to expect</h2><p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{description}</p></div></div></PageShell>;
+}

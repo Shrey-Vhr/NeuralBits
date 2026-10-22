@@ -1,0 +1,2 @@
+import { PlaceholderPage } from "@/components/placeholder-page";
+export default function ValueEstimatorPage() { return <PlaceholderPage eyebrow="Value estimator" title="Understand estimated value" description="Value estimates will be calculated from verified vendor rates and clearly marked as estimates. No prices are shown until the rate data model exists." nextStep="Verified rates arrive with marketplace features" />; }

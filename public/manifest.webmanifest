@@ -1,0 +1,13 @@
+{
+  "name": "ScrapReady",
+  "short_name": "ScrapReady",
+  "description": "Prepare. Value. Recycle.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7faf8",
+  "theme_color": "#1f6b51",
+  "lang": "en-IN",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
