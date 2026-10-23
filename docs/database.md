@@ -28,7 +28,7 @@ Public policies expose only approved, active vendors and their relationships to 
 
 ## Authentication and roles migration
 
-Apply [`supabase/migrations/202610220003_auth_roles.sql`](../supabase/migrations/202610220003_auth_roles.sql) after the first two migrations. It creates:
+[`supabase/migrations/202610220003_auth_roles.sql`](../supabase/migrations/202610220003_auth_roles.sql) has been applied after the first two migrations. It creates:
 
 - `profiles`, keyed to `auth.users`, for minimal display settings.
 - `user_roles`, with `customer`, `vendor`, and `administrator` roles.
@@ -37,6 +37,12 @@ Apply [`supabase/migrations/202610220003_auth_roles.sql`](../supabase/migrations
 The database trigger creates a profile and customer role for each new Auth user. RLS lets users read/update only their own profile, read their own roles, and read their own memberships. Administrators can read protected role/profile/membership records. No public role or membership write policies exist.
 
 Bootstrap the first administrator manually in the SQL Editor after signup. A vendor user requires both the vendor role and an approved membership row; supplying a vendor ID alone never grants access.
+
+## Pickup requests
+
+[`supabase/migrations/202610220004_pickup_requests.sql`](../supabase/migrations/202610220004_pickup_requests.sql) creates `pickup_requests` with customer/vendor/material foreign keys, quantity, address, locality, preferred schedule, notes, and constrained status values. It is applied in the configured project.
+
+RLS limits reads to the customer, approved assigned vendor members, or administrators. Customer identity is taken from verified server claims in the API route rather than trusted from the browser. A database trigger rejects ownership changes and invalid status transitions.
 
 ## Seed data
 

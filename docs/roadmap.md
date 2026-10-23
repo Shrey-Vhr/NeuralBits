@@ -45,7 +45,18 @@
 - [x] Vendor role plus approved membership guard
 - [x] Administrator guard and documented bootstrap procedure
 - [x] Profile, role, and membership RLS migration
-- [ ] Apply the migration and run live signup/RLS tests in Supabase
+- [x] Apply the migration and verify live table/RLS behavior in Supabase
+- [ ] Run a dedicated test-account signup, email verification, and password-reset cycle
+
+## Milestone 5 — Education-to-pickup workflow (current)
+
+- [x] Pickup request schema and RLS migration
+- [x] Customer pickup form and history route
+- [x] Server-owned customer identity on pickup creation
+- [x] Approved vendor pickup accept/reject/complete actions
+- [x] Isolated non-persistent `/demo` judge walkthrough
+- [x] Mobile demo verification
+- [ ] Run authenticated customer/vendor status-transition tests with disposable accounts
 
 ## Later milestones
 

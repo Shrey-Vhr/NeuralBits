@@ -1,0 +1,20 @@
+export type PunjabLocality = { id: string; name: string; city: string; district: string; pin_code: string };
+export const fallbackPunjabLocalities: PunjabLocality[] = [
+  { id: "ludhiana-central", name: "Ludhiana Central", city: "Ludhiana", district: "Ludhiana", pin_code: "141001" },
+  { id: "amritsar-central", name: "Amritsar Central", city: "Amritsar", district: "Amritsar", pin_code: "143001" },
+  { id: "jalandhar-central", name: "Jalandhar Central", city: "Jalandhar", district: "Jalandhar", pin_code: "144001" },
+  { id: "patiala-central", name: "Patiala Central", city: "Patiala", district: "Patiala", pin_code: "147001" },
+  { id: "bathinda-central", name: "Bathinda Central", city: "Bathinda", district: "Bathinda", pin_code: "151001" },
+  { id: "mohali", name: "SAS Nagar / Mohali", city: "Sahibzada Ajit Singh Nagar", district: "SAS Nagar", pin_code: "160055" },
+  { id: "hoshiarpur-central", name: "Hoshiarpur Central", city: "Hoshiarpur", district: "Hoshiarpur", pin_code: "146001" },
+  { id: "pathankot-central", name: "Pathankot Central", city: "Pathankot", district: "Pathankot", pin_code: "145001" },
+  { id: "moga-central", name: "Moga Central", city: "Moga", district: "Moga", pin_code: "142001" },
+  { id: "firozpur-central", name: "Firozpur Central", city: "Firozpur", district: "Firozpur", pin_code: "152001" },
+  { id: "kapurthala-central", name: "Kapurthala Central", city: "Kapurthala", district: "Kapurthala", pin_code: "144601" },
+  { id: "sangrur-central", name: "Sangrur Central", city: "Sangrur", district: "Sangrur", pin_code: "148001" },
+  { id: "barnala-central", name: "Barnala Central", city: "Barnala", district: "Barnala", pin_code: "148101" },
+  { id: "khanna-central", name: "Khanna Central", city: "Khanna", district: "Ludhiana", pin_code: "141401" },
+  { id: "phagwara-central", name: "Phagwara Central", city: "Phagwara", district: "Kapurthala", pin_code: "144401" },
+  { id: "rupnagar-central", name: "Rupnagar Central", city: "Rupnagar", district: "Rupnagar", pin_code: "140001" },
+  { id: "muktsar-central", name: "Sri Muktsar Sahib Central", city: "Sri Muktsar Sahib", district: "Sri Muktsar Sahib", pin_code: "152026" },
+];

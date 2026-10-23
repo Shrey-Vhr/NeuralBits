@@ -1,44 +1,25 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Camera, CheckCircle2, MapPin, Recycle, ShieldCheck, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Award, Camera, Check, Leaf, MapPin, PackageCheck, Sprout, Users } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
+import { CleanCityVisual } from "@/components/clean-city-visual";
 
 export default function Home() {
-  return (
-    <PageShell>
-      <section className="grid items-center gap-10 overflow-hidden rounded-3xl bg-[var(--primary-strong)] px-6 py-10 text-white sm:px-10 sm:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:px-14">
-        <div>
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#b9e8d5]"><Sparkles size={14} /> Pilot foundation</p>
-          <h1 className="max-w-2xl text-4xl font-bold tracking-tight sm:text-6xl">Prepare. Value. Recycle.</h1>
-          <p className="mt-5 max-w-xl text-base leading-7 text-[#d5eee3] sm:text-lg">A clearer way to understand your scrap, prepare it safely, and discover local recycling partners.</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/scan"><Button variant="secondary" size="lg"><Camera size={18} /> Identify an item</Button></Link>
-            <Link href="/guides"><Button variant="outline" size="lg">Browse preparation guides <ArrowRight size={18} /></Button></Link>
-          </div>
-          <p className="mt-5 text-xs text-[#b9d9ca]">Built for the ScrapReady pilot · Locality-based discovery</p>
-        </div>
-        <div className="relative hidden min-h-72 lg:block">
-          <div className="absolute right-5 top-3 h-56 w-56 rounded-full bg-[#2d8b6e]/60 blur-2xl" />
-          <div className="absolute bottom-0 right-8 rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur">
-            <Recycle className="mb-4 text-[#a9e3c8]" size={48} strokeWidth={1.5} />
-            <p className="text-lg font-semibold">Small steps, better sorting.</p>
-            <p className="mt-2 max-w-xs text-sm leading-6 text-[#c4e6d6]">Start with one item and learn what to do next.</p>
-          </div>
-        </div>
-      </section>
+  return <PageShell><div className="mx-auto max-w-7xl">
+    <section className="relative overflow-hidden rounded-[2rem] border border-[#d7e4d2] bg-[#fbfaf1] px-6 py-10 soft-shadow sm:px-10 sm:py-14 lg:px-16 lg:py-16">
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#c8edcf] blur-3xl" /><div className="pointer-events-none absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-[#e2f0c0] blur-3xl" />
+      <div className="relative grid items-center gap-10 lg:grid-cols-[.95fr_1.05fr]">
+        <div><div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#e6f3df] px-3 py-1.5 text-xs font-bold uppercase tracking-[.16em] text-[#25623c]"><Leaf size={14} /> ScrapReady pilot</div><h1 className="max-w-2xl text-5xl font-black leading-[.94] tracking-[-.06em] text-[#10231b] sm:text-7xl">Cleaner homes.<br /><span className="display-serif text-[#176b3a]">Brighter communities.</span></h1><p className="mt-6 max-w-xl text-base leading-7 text-[#5a7063] sm:text-lg">Know what you have, prepare it safely, and connect it with the right collection path.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Link href="/scan" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#176b3a] px-6 text-sm font-bold text-white shadow-lg shadow-[#176b3a]/20 transition hover:-translate-y-0.5 hover:bg-[#12572f]"><Camera size={18} /> Identify an item</Link><Link href="/guides" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#bad2bc] bg-white px-6 text-sm font-bold text-[#176b3a] transition hover:-translate-y-0.5"><Sprout size={18} /> Learn to prepare</Link></div><p className="mt-5 text-xs font-semibold text-[#76907b]">Locality-based discovery · English pilot · Ludhiana-ready</p></div>
+        <CleanCityVisual />
+      </div>
+    </section>
 
-      <section className="mt-12 grid gap-4 sm:grid-cols-3">
-        {[
-          { icon: Camera, title: "Identify", text: "Search or select an item to understand its likely material." },
-          { icon: BookOpen, title: "Prepare", text: "Follow clear, safety-first guidance before setting scrap aside." },
-          { icon: MapPin, title: "Connect", text: "Explore verified local vendors when the pilot marketplace is ready." },
-        ].map(({ icon: Icon, title, text }) => <div key={title} className="rounded-2xl border border-[var(--border)] bg-white p-5"><Icon className="text-[var(--secondary-strong)]" size={24} /><h2 className="mt-4 font-bold text-[var(--primary-strong)]">{title}</h2><p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{text}</p></div>)}
-      </section>
+    <section className="mt-8 grid gap-4 md:grid-cols-3"><ActionCard href="/pickups" icon={PackageCheck} tone="green" eyebrow="Next step" title="Request a pickup" text="Save one or more prepared materials and choose a collection path." /><ActionCard href="/bulk-pickups" icon={Users} tone="lime" eyebrow="Near you" title="Join a local group" text="Combine compatible pickup requests by locality and PIN." /><ActionCard href="/scrap-points" icon={Award} tone="cream" eyebrow="Illustrative" title="See your value" text="Calculate material-specific demo points before collection." /></section>
 
-      <section className="mt-12 grid gap-6 lg:grid-cols-[1fr_0.8fr]">
-        <div className="rounded-2xl border border-[var(--border)] bg-white p-6 sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--secondary-strong)]">Start here</p><h2 className="mt-2 text-2xl font-bold text-[var(--primary-strong)]">Make your next scrap decision easier.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-[var(--muted-foreground)]">The first ScrapReady release is focused on a calm, useful foundation. These screens use demonstration content until the reviewed material library and pilot vendors are connected.</p><div className="mt-6 flex flex-wrap gap-3"><Link href="/items" className="inline-flex items-center gap-2 font-semibold text-[var(--primary)] hover:underline">Search items <ArrowRight size={16} /></Link><Link href="/materials" className="inline-flex items-center gap-2 font-semibold text-[var(--primary)] hover:underline">Explore materials <ArrowRight size={16} /></Link></div></div>
-        <div className="rounded-2xl bg-[var(--secondary-soft)] p-6 sm:p-8"><ShieldCheck className="text-[var(--secondary-strong)]" size={25} /><h2 className="mt-4 font-bold text-[var(--primary-strong)]">Safety comes first</h2><p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">ScrapReady will use reviewed guidance for hazardous or uncertain materials. Never dismantle an unknown item based only on a photo.</p><div className="mt-5 flex items-center gap-2 text-xs font-semibold text-[var(--primary-strong)]"><CheckCircle2 size={15} /> Guidance will be clearly labelled</div></div>
-      </section>
-    </PageShell>
-  );
+    <section className="mt-10 grid gap-6 lg:grid-cols-[1.05fr_.95fr]"><div className="rounded-[1.75rem] bg-[#103b28] p-6 text-[#eff9ed] sm:p-8"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#aad7b1]">Your recycling journey</p><h2 className="mt-3 text-3xl font-black tracking-tight">Small steps, visible progress.</h2></div><span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-[#c8edcf]">4 steps</span></div><div className="mt-8 grid gap-3 sm:grid-cols-4">{[["01", "Identify"], ["02", "Prepare"], ["03", "Connect"], ["04", "Collect"]].map(([number, label], index) => <div key={label} className="relative rounded-2xl bg-white/10 p-4"><span className="text-xs font-bold text-[#aad7b1]">{number}</span><p className="mt-7 font-bold">{label}</p>{index < 3 && <ArrowRight className="absolute right-3 top-1/2 hidden text-[#aad7b1] sm:block" size={15} />}</div>)}</div><Link href="/demo" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#c8edcf] hover:underline">See the 90-second journey <ArrowRight size={16} /></Link></div><div className="rounded-[1.75rem] border border-[#d7e4d2] bg-white p-6 soft-shadow sm:p-8"><div className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#e6f3df] text-[#176b3a]"><MapPin size={21} /></span><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#6d8874]">Built for local action</p><h2 className="mt-1 text-2xl font-black text-[#10231b]">Your area matters.</h2></div></div><p className="mt-5 text-sm leading-7 text-[#5a7063]">Discover collectors and bulk pickup opportunities by locality. Private addresses stay private until an authorized vendor is assigned.</p><div className="mt-6 space-y-3 text-sm font-semibold text-[#214c35]"><p className="flex items-center gap-3"><Check className="rounded-full bg-[#c8edcf] p-1 text-[#176b3a]" size={22} /> Reviewed guidance is clearly labelled</p><p className="flex items-center gap-3"><Check className="rounded-full bg-[#c8edcf] p-1 text-[#176b3a]" size={22} /> Hazardous items get safer routes</p><p className="flex items-center gap-3"><Check className="rounded-full bg-[#c8edcf] p-1 text-[#176b3a]" size={22} /> Demo flows never touch real records</p></div></div></section>
+
+    <section className="mt-10 flex flex-col justify-between gap-4 rounded-[1.5rem] bg-[#e2f0c0] p-6 sm:flex-row sm:items-center sm:p-8"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-[#47733e]">Need a quick answer?</p><h2 className="mt-2 text-2xl font-black text-[#183b24]">Search the household catalog.</h2></div><Link href="/items" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#183b24] px-5 text-sm font-bold text-white">Browse items <ArrowRight size={16} /></Link></section>
+  </div></PageShell>;
 }
+
+function ActionCard({ href, icon: Icon, tone, eyebrow, title, text }: { href: string; icon: typeof Camera; tone: "green" | "lime" | "cream"; eyebrow: string; title: string; text: string }) { const toneClass = tone === "green" ? "bg-[#c8edcf]" : tone === "lime" ? "bg-[#e2f0c0]" : "bg-[#fff5d9]"; return <Link href={href} className={`group rounded-[1.5rem] p-5 transition hover:-translate-y-1 soft-shadow ${toneClass}`}><div className="flex items-start justify-between"><Icon className="text-[#176b3a]" size={25} /><ArrowRight className="text-[#47733e] transition group-hover:translate-x-1" size={19} /></div><p className="mt-8 text-xs font-bold uppercase tracking-[.14em] text-[#5f8068]">{eyebrow}</p><h2 className="mt-2 text-xl font-black text-[#183b24]">{title}</h2><p className="mt-2 text-sm leading-6 text-[#5a7063]">{text}</p></Link>; }
+

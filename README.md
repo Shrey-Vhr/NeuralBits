@@ -8,7 +8,11 @@ Milestone 2 adds the material directory, 20-item catalog, searchable filters, it
 
 Milestone 3 adds locality-based vendor discovery, accepted-material filters, vendor profiles, indicative-rate presentation, stale-rate warnings, and a read-only vendor RLS migration. The local fallback vendor records are demonstrations only and are not real businesses.
 
-Milestone 4 adds email/password authentication, cookie-based SSR sessions, protected customer/vendor/administrator routes, profile editing, and role/membership authorization scaffolding.
+Milestone 4 adds email/password authentication, cookie-based SSR sessions, protected customer/vendor/administrator routes, profile editing, and role/membership authorization. The authentication/roles migration has been applied to the configured Supabase project.
+
+Milestone 5 adds the education-to-collection path, real pickup request API/schema, customer pickup history, approved-vendor pickup actions, and a non-persistent 90-second judge walkthrough at `/demo`.
+
+Milestone 7 adds manual catalog identification at `/scan` plus an optional server-only Gemini photo suggestion. Manual identification remains available when `GEMINI_API_KEY` is absent or Gemini is unavailable.
 
 ## Local development
 
@@ -33,7 +37,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
 Do not add service-role keys to `NEXT_PUBLIC_*` variables or browser code. Authentication and database tables are intentionally not enabled in Milestone 1.
 
-For Milestones 2–4, apply [`supabase/migrations/202610220001_educational_content.sql`](./supabase/migrations/202610220001_educational_content.sql), [`supabase/migrations/202610220002_vendor_directory.sql`](./supabase/migrations/202610220002_vendor_directory.sql), and [`supabase/migrations/202610220003_auth_roles.sql`](./supabase/migrations/202610220003_auth_roles.sql) in order. The optional [`supabase/seed.sql`](./supabase/seed.sql) contains educational seed data; actual vendor rows must be added only after verification.
+Migrations `202610220001` through `202610220004` have been applied to the configured Supabase project. The optional [`supabase/seed.sql`](./supabase/seed.sql) contains educational seed data; actual vendor rows must be added only after verification.
+
+To enable photo suggestions locally, add `GEMINI_API_KEY=...` to `.env.local`. Keep this key server-only; never use a `NEXT_PUBLIC_` name.
 
 ## Authentication setup
 

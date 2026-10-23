@@ -13,6 +13,7 @@ export type VendorMaterial = {
 };
 
 export type Vendor = {
+  id?: string;
   slug: string;
   businessName: string;
   businessDescription: string;

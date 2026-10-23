@@ -2,16 +2,19 @@ import Link from "next/link";
 import { ArrowLeft, BookOpen, MapPin, ShieldCheck } from "lucide-react";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
-import { getEducationContent, getMaterialForPage } from "@/lib/content-repository";
+import { DataUnavailable } from "@/components/data-unavailable";
+import { getEducationContent } from "@/lib/content-repository";
 
 // @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
 export const instant = false;
 
 export default async function MaterialDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const material = await getMaterialForPage(slug);
+  const content = await getEducationContent();
+  if (content.error) return <PageShell><DataUnavailable message={content.error} /></PageShell>;
+  const material = content.materials.find((candidate) => candidate.slug === slug);
   if (!material) notFound();
-  const { items } = await getEducationContent();
+  const { items } = content;
   const relatedItems = items.filter((item) => item.materialSlugs.includes(material.slug));
   return <PageShell><Link href="/materials" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--primary)] hover:underline"><ArrowLeft size={16} /> All materials</Link><div className="mt-7 max-w-3xl"><p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--secondary-strong)]">{material.category}</p><h1 className="mt-2 text-4xl font-bold tracking-tight text-[var(--primary-strong)]">{material.name}</h1><p className="mt-4 text-base leading-7 text-[var(--muted-foreground)]">{material.description}</p></div><div className="mt-8 grid gap-5 lg:grid-cols-2"><section className="rounded-2xl border border-[var(--border)] bg-white p-6"><h2 className="font-bold text-[var(--primary-strong)]">Common examples</h2><ul className="mt-4 space-y-2 text-sm text-[var(--muted-foreground)]">{material.householdExamples.map((example) => <li key={example} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--secondary)]" />{example}</li>)}</ul></section><section className="rounded-2xl border border-[var(--border)] bg-white p-6"><h2 className="font-bold text-[var(--primary-strong)]">Basic segregation</h2><p className="mt-4 text-sm leading-6 text-[var(--muted-foreground)]">{material.segregationGuidance}</p>{material.specialHandling && <p className="mt-4 rounded-xl bg-[var(--surface)] p-3 text-sm leading-6 text-[var(--muted-foreground)]"><strong className="text-[var(--primary-strong)]">Special handling: </strong>{material.specialHandling}</p>}</section></div><section className="mt-5 rounded-2xl border border-[#f1dfaa] bg-[#fffaf0] p-6"><div className="flex gap-3"><ShieldCheck className="shrink-0 text-[#9a7310]" size={22} /><div><h2 className="font-bold text-[#6f5206]">Safety reminders</h2><ul className="mt-3 space-y-2 text-sm leading-6 text-[#7b5a08]">{material.safetyPrecautions.map((warning) => <li key={warning}>• {warning}</li>)}</ul></div></div></section><Link href={`/vendors?material=${material.slug}`} className="mt-5 flex items-center justify-between gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 hover:border-[var(--secondary)]"><span><span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--secondary-strong)]"><MapPin size={15} /> Local discovery</span><strong className="mt-2 block text-lg text-[var(--primary-strong)]">Find vendors accepting {material.name.toLowerCase()}</strong></span><ArrowLeft className="rotate-180 text-[var(--primary)]" size={20} /></Link><section className="mt-8"><div className="flex items-center justify-between gap-4"><h2 className="text-xl font-bold text-[var(--primary-strong)]">Related items</h2><BookOpen className="text-[var(--secondary-strong)]" size={22} /></div><div className="mt-4 flex flex-wrap gap-2">{relatedItems.map((item) => <Link key={item.slug} href={`/items/${item.slug}`} className="rounded-full border border-[var(--border)] bg-white px-3 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--surface)]">{item.name}</Link>)}</div></section></PageShell>;
 }

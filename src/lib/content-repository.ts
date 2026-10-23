@@ -7,7 +7,7 @@ function stringValue(row: SupabaseRow, key: string, fallback = "") { return type
 function stringArray(row: SupabaseRow, key: string) { return Array.isArray(row[key]) ? row[key].filter((value): value is string => typeof value === "string") : []; }
 
 function materialFromRow(row: SupabaseRow): Material {
-  return { slug: stringValue(row, "slug"), name: stringValue(row, "name"), category: stringValue(row, "category"), description: stringValue(row, "description"), householdExamples: stringArray(row, "household_examples"), segregationGuidance: stringValue(row, "segregation_guidance"), specialHandling: stringValue(row, "special_handling") || undefined, safetyPrecautions: stringArray(row, "safety_precautions"), isPublished: Boolean(row.is_published), };
+  return { id: stringValue(row, "id") || undefined, slug: stringValue(row, "slug"), name: stringValue(row, "name"), category: stringValue(row, "category"), description: stringValue(row, "description"), householdExamples: stringArray(row, "household_examples"), segregationGuidance: stringValue(row, "segregation_guidance"), specialHandling: stringValue(row, "special_handling") || undefined, safetyPrecautions: stringArray(row, "safety_precautions"), isPublished: Boolean(row.is_published), };
 }
 
 function itemFromRow(row: SupabaseRow): Item {
@@ -24,7 +24,8 @@ function guideFromRow(row: SupabaseRow): PreparationGuide {
 
 export async function getEducationContent() {
   const supabase = await createSupabaseServerClient();
-  if (!supabase) return { materials: localMaterials, items: localItems, guides: localGuides };
+  const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY));
+  if (!supabase) return configured ? { materials: [], items: [], guides: [], source: "supabase" as const, error: "Supabase is configured but the server client is unavailable." } : { materials: localMaterials, items: localItems, guides: localGuides, source: "local" as const, error: null };
 
   const [materialsResult, itemsResult, guidesResult] = await Promise.all([
     supabase.from("materials").select("*").eq("is_published", true).order("name"),
@@ -32,13 +33,13 @@ export async function getEducationContent() {
     supabase.from("preparation_guides").select("*, items(slug), materials(slug)").eq("approval_status", "approved").order("title"),
   ]);
 
-  if (materialsResult.error || itemsResult.error || guidesResult.error || !materialsResult.data?.length || !itemsResult.data?.length) {
-    return { materials: localMaterials, items: localItems, guides: localGuides };
+  if (materialsResult.error || itemsResult.error || guidesResult.error) {
+    return { materials: [], items: [], guides: [], source: "supabase" as const, error: "Supabase educational content could not be loaded." };
   }
 
-  return { materials: materialsResult.data.map((row) => materialFromRow(row as SupabaseRow)), items: itemsResult.data.map((row) => itemFromRow(row as SupabaseRow)), guides: (guidesResult.data ?? []).map((row) => guideFromRow(row as SupabaseRow)), };
+  return { materials: (materialsResult.data ?? []).map((row) => materialFromRow(row as SupabaseRow)), items: (itemsResult.data ?? []).map((row) => itemFromRow(row as SupabaseRow)), guides: (guidesResult.data ?? []).map((row) => guideFromRow(row as SupabaseRow)), source: "supabase" as const, error: null };
 }
 
-export async function getMaterialForPage(slug: string) { const content = await getEducationContent(); return content.materials.find((material) => material.slug === slug) ?? getMaterial(slug); }
-export async function getItemForPage(slug: string) { const content = await getEducationContent(); return content.items.find((item) => item.slug === slug) ?? getItem(slug); }
-export async function getGuideForPage(slug: string) { const content = await getEducationContent(); return content.guides.find((guide) => guide.slug === slug) ?? getGuide(slug); }
+export async function getMaterialForPage(slug: string) { const content = await getEducationContent(); return content.error ? undefined : content.materials.find((material) => material.slug === slug) ?? (content.source === "local" ? getMaterial(slug) : undefined); }
+export async function getItemForPage(slug: string) { const content = await getEducationContent(); return content.error ? undefined : content.items.find((item) => item.slug === slug) ?? (content.source === "local" ? getItem(slug) : undefined); }
+export async function getGuideForPage(slug: string) { const content = await getEducationContent(); return content.error ? undefined : content.guides.find((guide) => guide.slug === slug) ?? (content.source === "local" ? getGuide(slug) : undefined); }

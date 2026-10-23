@@ -1,6 +1,7 @@
 export type ContentStatus = "draft" | "pending_review" | "approved" | "archived";
 
 export type Material = {
+  id?: string;
   slug: string;
   name: string;
   category: string;

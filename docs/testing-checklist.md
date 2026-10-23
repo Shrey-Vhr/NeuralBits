@@ -62,4 +62,31 @@ Live vendor RLS testing could not be performed because the Supabase vendor migra
 
 Live signup, email verification, sign-out, password reset, session persistence, role escalation, cross-user profile denial, cross-vendor denial, and live RLS tests remain pending because the auth/role migration has not been applied to the configured Supabase project and no test account was created.
 
+Updated live status: the auth/role migration is now applied. Anonymous role writes return RLS error `42501`; the three auth tables are readable as empty protected tables. Dedicated email-based authentication and authenticated RLS isolation tests still require a disposable test account and reachable verification email.
+
+## Milestone 5 checks completed
+
+- [x] Pickup migration applied live
+- [x] `pickup_requests` table exists and is empty
+- [x] Anonymous pickup insert denied with RLS error `42501`
+- [x] Anonymous `/pickups` redirects to login
+- [x] `/demo` works without login
+- [x] Demo progresses through item, material, preparation, collector, request, and status steps
+- [x] Demo explicitly states that no real pickup is scheduled
+- [x] Demo has no horizontal overflow at 390px
+- [x] Real pickup customer identity is assigned server-side from verified claims
+- [x] Vendor actions are limited by approved membership and database transition trigger
+- [ ] Authenticated real pickup creation and vendor transitions with disposable accounts
+
+## Milestone 7 checks completed
+
+- [x] Manual item catalog search and selection
+- [x] Material classification and material-detail links
+- [x] Approved-guide display path
+- [x] Hazardous-item safety warnings
+- [x] Collector link for eligible material
+- [x] 390px scan layout without horizontal overflow
+- [x] Missing `GEMINI_API_KEY` returns a clear 503 fallback while manual search remains available
+- [ ] Real Gemini image request, pending API key configuration
+
 Manual browser and PWA installation checks should be completed after starting the production server on a device or browser that supports installation.

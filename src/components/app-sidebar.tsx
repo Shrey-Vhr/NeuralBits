@@ -1,0 +1,17 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Award, BookOpen, Camera, Handshake, Home, IndianRupee, Leaf, Menu, PackageCheck, Users, UserRound, UserPlus, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+
+const items = [
+  { href: "/", label: "Home", icon: Home }, { href: "/scan", label: "Identify an Item", icon: Camera }, { href: "/guides", label: "Preparation Guides", icon: BookOpen }, { href: "/rates", label: "Rate List", icon: IndianRupee }, { href: "/scrap-points", label: "Scrap Points", icon: Award }, { href: "/vendors", label: "Connect / Collectors", icon: Handshake }, { href: "/pickups", label: "My Pickups", icon: PackageCheck }, { href: "/bulk-pickups", label: "Bulk Pickups", icon: Users }, { href: "/profile", label: "Profile / Sign In", icon: UserRound }, { href: "/demo", label: "Try Live Demo", icon: Leaf }, { href: "/get-started", label: "Get Started", icon: UserPlus },
+];
+
+export function AppSidebar() {
+  const pathname = usePathname(); const [open, setOpen] = useState(false);
+  useEffect(() => { const onKey = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false); document.addEventListener("keydown", onKey); document.body.style.overflow = open ? "hidden" : ""; return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; }; }, [open]);
+  const navigation = <nav aria-label="Application navigation" className="flex flex-col gap-1">{items.map(({ href, label, icon: Icon }) => { const active = href === "/" ? pathname === "/" : pathname.startsWith(href); return <Link key={href} href={href} onClick={() => setOpen(false)} aria-current={active ? "page" : undefined} className={`flex min-h-11 items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8edcf] ${active ? "bg-[#c8edcf] text-[#103b28] shadow-sm" : "text-[#e8f6e9] hover:bg-[#23563b]"}`}><Icon size={18} />{label}</Link>; })}</nav>;
+  return <><button aria-label="Open navigation menu" aria-expanded={open} onClick={() => setOpen(true)} className="fixed left-4 top-4 z-30 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#103b28] text-[#e8f6e9] shadow-lg md:hidden"><Menu size={21} /></button>{open && <button aria-label="Close navigation overlay" onClick={() => setOpen(false)} className="fixed inset-0 z-30 bg-[#103b28]/50 md:hidden" />}{<aside className={`fixed inset-y-0 left-0 z-40 w-72 transform bg-[#103b28] px-4 py-5 shadow-2xl transition-transform md:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}><div className="flex items-center justify-between px-2"><Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2 text-[#eff9ed]"><span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#c8edcf] text-[#103b28]"><Leaf size={20} /></span><span className="text-lg font-bold tracking-tight">ScrapReady</span></Link><button aria-label="Close navigation menu" onClick={() => setOpen(false)} className="rounded-lg p-2 text-[#e1ebdd] hover:bg-[#23563b] md:hidden"><X size={20} /></button></div><p className="mb-5 mt-8 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#aad7b1]">Prepare · Value · Recycle</p>{navigation}<div className="mt-8 rounded-2xl bg-white/10 p-4"><p className="text-xs font-semibold text-[#c8edcf]">Pilot focus</p><p className="mt-2 text-sm leading-5 text-[#edf8ec]">Cleaner sorting starts with one item.</p></div></aside>}</>;
+}
