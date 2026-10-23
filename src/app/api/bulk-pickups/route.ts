@@ -12,6 +12,11 @@ export async function GET(request: Request) {
   const { data: claims } = await supabase.auth.getClaims();
   if (typeof claims?.claims?.sub !== "string") return errorResponse("You must be signed in.", 401);
   const url = new URL(request.url);
+  if (url.searchParams.get("notifications") === "1") {
+    const result = await supabase.rpc("get_my_bulk_notifications");
+    if (result.error) { logBulkError("notifications", result.error); return errorResponse(migrationMessage(result.error.message, "Bulk notifications are unavailable."), 503); }
+    return NextResponse.json({ notifications: result.data ?? [] });
+  }
   if (url.searchParams.get("mine") === "1") {
     const result = await supabase.rpc("bulk_my_groups");
     if (result.error) { logBulkError("mine", result.error); return errorResponse(migrationMessage(result.error.message, "Your bulk pickup groups could not be loaded."), 503); }
